@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+
+  nginx:
+    image: nginx:1.23.1
+    container_name: nginx
+    volumes:
+      - ./:/var/www/app
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - "8080:80"
+    networks:
+      - fulll-back
+    depends_on:
+      - php
+
+  php:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    container_name: php
+    volumes:
+      - ./docker/php/conf/php-fpm.ini:/usr/local/etc/php/conf.d/custom.ini
+      - ./:/var/www/app
+    working_dir: /var/www/app
+    depends_on:
+      - postgres
+    networks:
+      - fulll-back
+    extra_hosts:
+      - dev.fulll:127.0.0.1
+    user: "${DEV_UID}:${DEV_GID}"
+
+  postgres:
+    image: postgres:14.5
+    container_name: postgres
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: fulll_application
+    networks:
+      - fulll-back
+
+networks:
+  fulll-back:
+    name: fulll-back
