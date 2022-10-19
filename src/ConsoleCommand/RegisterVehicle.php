@@ -34,7 +34,7 @@ class RegisterVehicle extends Command
      */
     protected function configure(): void
     {
-        $this->setDescription('Create fleet')
+        $this->setDescription('Register a vehicle')
             ->setHelp('This command register a vehicle into a fleet')
             ->addArgument(
                 'fleetId',

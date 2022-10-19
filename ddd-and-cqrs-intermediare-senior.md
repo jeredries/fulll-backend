@@ -189,3 +189,9 @@ If I were to set up a CD, it necessarily depends on the versioning workflow but 
 - Quality of the code.
 - Please be careful to not over engineer your solution!
 - Usage of good practices and modern programming language features.
+
+### Init project
+
+- `docker compose up --build -d`
+- `docker exec -it php bash` then `composer install` and `bin/console doctrine:migrations:migrate`
+- The command can be run into php container now. For example: 
